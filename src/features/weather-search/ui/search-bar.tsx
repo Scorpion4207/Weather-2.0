@@ -1,30 +1,42 @@
-import { useState, type ChangeEvent } from "react";
-
+import { useState, type ChangeEvent, type FormEvent } from "react";
+import { useAppDispatch } from "../../../app/providers/hooka";
+import { citySearch } from "../model/store";
 
 export const SearchBar = () => {
-  const [value, setValue] = useState<string>("");
-  
+  const [searchValue, setSearchValue] = useState<string>("");
+  const dispatch = useAppDispatch();
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
+    setSearchValue(event.target.value);
   };
-  const onSubmit = () => {
-    alert(value);
+  const onSubmit = (event: FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    dispatch(citySearch(searchValue.trim()));
   };
+
+  const isSubmitDisabled = !searchValue.trim();
   return (
     <form
       className="flex justify-center gap-7 text-xl mb-10"
       onSubmit={onSubmit}
+      role="search"
+      aria-label="Поиск города"
     >
       <input
         className="bg-white w-200 px-4 rounded-2xl border-4 border-blue-900"
         name="query"
         onChange={onChange}
-        value={value}
+        value={searchValue}
+        placeholder="Введите название города..."
+        type="search"
+        aria-label="Название города"
+        autoComplete="off"
       />
       <button
         className="bg-blue-900 rounded-3xl px-6 py-3 flex justify-center gap-3 items-center "
         type="submit"
+        disabled={isSubmitDisabled}
+        aria-label="Выполнить поиск"
       >
         Поиск
         <svg x="0px" y="0px" width="30" height="30" viewBox="0 0 50 50">

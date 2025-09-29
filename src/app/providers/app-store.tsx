@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { weatherApi } from "../../shared/api/base-api";
 import { setupListeners } from "@reduxjs/toolkit/query";
+import weatherSlice from "../../features/weather-search/model/store";
 
 export const store = configureStore({
   reducer: {
+    weather: weatherSlice,
     [weatherApi.reducerPath]: weatherApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

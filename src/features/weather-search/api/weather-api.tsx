@@ -1,11 +1,11 @@
 import { weatherApi } from "../../../shared/api/base-api";
-import type { RootInterface } from "./types";
+import type { JsonInterface } from "./types";
 
 const currentWeather = weatherApi.injectEndpoints({
   endpoints: (builder) => ({
-    getCurrentWeather: builder.query<RootInterface, string>({
+    getCurrentWeather: builder.query<JsonInterface, string | null>({
       query: (city) =>
-        `current.json?key=220e1cb8661f4ae0baf102558252509&q=${city}`,
+        `forecast.json?key=220e1cb8661f4ae0baf102558252509&q=${city}&lang=ru&days=1&aqi=no&alerts=no&hour=all`,
     }),
   }),
 });
